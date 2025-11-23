@@ -692,6 +692,13 @@
         filter: none;
       }
       
+      /* Welcome animation on mobile */
+      #welcome-animation {
+        width: 250px !important;
+        height: 250px !important;
+        min-height: 250px !important;
+      }
+      
       .lottie-feature {
         max-width: 150px;
       }
@@ -832,6 +839,11 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 relative z-10">
       <!-- Left -->
       <div class="max-w-xl fade-in slide-in-left">
+        <!-- Welcome Animation - Large and Prominent -->
+        <div class="lottie-container mb-6 -ml-8">
+          <div id="welcome-animation" class="lottie-hero" style="width: 400px; height: 400px; min-height: 400px; max-width: 100%;"></div>
+        </div>
+        
         <div class="pill inline-flex items-center gap-2 mb-4 bg-slate-900/70 text-[0.7rem]">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,1)] animate-pulse"></span>
           <span data-i18n="hero.badge">WEB3'ÜN GELECEK NESİL CÜZDANI</span>
@@ -875,33 +887,37 @@
           </div>
         </div>
 
+        <!-- Additional Crypto Animation -->
+        <div class="lottie-container mt-4 mb-4">
+          <div id="cryptocoins-animation" class="lottie-hero" style="width: 100%; height: 120px; min-height: 120px; opacity: 0.7;"></div>
+        </div>
+
         <!-- Trust Indicators -->
-        <div class="flex items-center gap-6 text-xs text-slate-400 pt-4 border-t border-slate-800/50">
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-slate-400 pt-4 border-t border-slate-800/50">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center text-white font-bold text-[0.7rem]">5M+</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center text-white font-bold text-[0.7rem] shadow-lg shadow-cyan-400/50">5M+</div>
             <span>Aktif Kullanıcı</span>
           </div>
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white font-bold text-[0.7rem]">50+</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white font-bold text-[0.7rem] shadow-lg shadow-purple-400/50">50+</div>
             <span>Zincir Desteği</span>
           </div>
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-white font-bold text-[0.7rem]">99%</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-white font-bold text-[0.7rem] shadow-lg shadow-orange-400/50">99%</div>
             <span>Uptime</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-white font-bold text-[0.7rem] shadow-lg shadow-emerald-400/50">10K+</div>
+            <span>Dapp Entegrasyonu</span>
           </div>
         </div>
       </div>
 
       <!-- Right: Balance Card & Phone mockup -->
       <div class="flex flex-col gap-6 justify-center lg:justify-end flex-1 fade-in slide-in-right">
-        <!-- Top: Welcome + Loading Animations -->
-        <div class="flex items-center gap-4 mb-4">
-          <div class="lottie-container flex-1">
-            <div id="welcome-animation" class="lottie-hero" style="width: 200px; height: 200px; min-height: 200px;"></div>
-          </div>
-          <div class="lottie-container flex-1">
-            <div id="bitcoinloader-animation" class="lottie-hero" style="width: 150px; height: 150px; min-height: 150px;"></div>
-          </div>
+        <!-- Top: Bitcoin Loader Animation -->
+        <div class="lottie-container mb-4 flex justify-center lg:justify-end">
+          <div id="bitcoinloader-animation" class="lottie-hero" style="width: 200px; height: 200px; min-height: 200px;"></div>
         </div>
         
         <!-- Balance Card -->

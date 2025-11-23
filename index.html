@@ -1748,8 +1748,8 @@
     });
   }
 
-  // Load Lottie Animations - Enhanced version
-  function loadLottieAnimation(containerId, jsonPath, options = {}) {
+  // Load Lottie Animation with JSON data directly
+  async function loadLottieAnimation(containerId, jsonPath, options = {}) {
     const container = document.getElementById(containerId);
     if (!container) {
       console.error(`❌ Container ${containerId} not found!`);
@@ -1761,36 +1761,62 @@
       return null;
     }
 
-    // Clear container first
-    container.innerHTML = '';
-
-    const defaultOptions = {
-      container: container,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: jsonPath,
-      ...options
-    };
-
     try {
+      // Fetch JSON file directly
+      const response = await fetch(jsonPath);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${jsonPath}: ${response.status}`);
+      }
+      
+      const animationData = await response.json();
+      
+      // Clear container
+      container.innerHTML = '';
+
+      const defaultOptions = {
+        container: container,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        ...options
+      };
+
       const anim = lottie.loadAnimation(defaultOptions);
       console.log(`✅ Loaded animation: ${containerId} from ${jsonPath}`);
       
       // Ensure visibility
       container.style.display = 'block';
       container.style.opacity = '1';
+      container.style.visibility = 'visible';
       
       return anim;
     } catch (error) {
       console.error(`❌ Error loading animation ${containerId}:`, error);
-      return null;
+      // Try with path as fallback
+      try {
+        container.innerHTML = '';
+        const fallbackOptions = {
+          container: container,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: jsonPath,
+          ...options
+        };
+        const anim = lottie.loadAnimation(fallbackOptions);
+        console.log(`✅ Loaded animation (fallback): ${containerId}`);
+        return anim;
+      } catch (fallbackError) {
+        console.error(`❌ Fallback also failed for ${containerId}:`, fallbackError);
+        return null;
+      }
     }
   }
 
-  // Initialize Lottie Animations - Multiple attempts
+  // Initialize Lottie Animations
   let lottieInitAttempts = 0;
-  const maxAttempts = 20;
+  const maxAttempts = 30;
 
   function initLottieAnimations() {
     lottieInitAttempts++;
@@ -1798,71 +1824,58 @@
     // Check if Lottie is loaded
     if (typeof lottie === 'undefined') {
       if (lottieInitAttempts < maxAttempts) {
-        console.log(`⏳ Waiting for Lottie library... (attempt ${lottieInitAttempts})`);
-        setTimeout(initLottieAnimations, 300);
+        setTimeout(initLottieAnimations, 200);
         return;
       } else {
-        console.error('❌ Lottie library failed to load after multiple attempts');
+        console.error('❌ Lottie library failed to load');
         return;
       }
     }
 
-    console.log('🎬 Lottie library loaded! Initializing animations...');
+    console.log('🎬 Lottie library loaded! Loading animations...');
 
-    // Wait a bit more to ensure everything is ready
-    setTimeout(() => {
-      // Load all animations with retry mechanism
-      const animationsToLoad = [
-        { id: 'welcome-animation', path: 'welcome.json', options: {} },
-        { id: 'cryptophone-animation', path: 'cryptophone.json', options: {} },
-        { id: 'cryptocoins-animation', path: 'cryptocoins.json', options: {} },
-        { id: 'city-animation', path: 'bitcoincryptocurrencycity.json', options: { speed: 0.8 } },
-        { id: 'bitcoin-animation', path: 'cryptobitcoin.json', options: {} }
-      ];
+    // Load all animations
+    const animationsToLoad = [
+      { id: 'welcome-animation', path: 'welcome.json', options: {} },
+      { id: 'cryptophone-animation', path: 'cryptophone.json', options: {} },
+      { id: 'cryptocoins-animation', path: 'cryptocoins.json', options: {} },
+      { id: 'city-animation', path: 'bitcoincryptocurrencycity.json', options: { speed: 0.8 } },
+      { id: 'bitcoin-animation', path: 'cryptobitcoin.json', options: {} }
+    ];
 
-      const loadedAnimations = {};
-
-      animationsToLoad.forEach(({ id, path, options }) => {
-        const anim = loadLottieAnimation(id, path, options);
-        if (anim) {
-          loadedAnimations[id] = anim;
-        } else {
-          // Retry once after 1 second
-          setTimeout(() => {
-            loadLottieAnimation(id, path, options);
-          }, 1000);
+    const loadPromises = animationsToLoad.map(({ id, path, options }) => {
+      return loadLottieAnimation(id, path, options).then(anim => {
+        if (anim && isMobile && typeof anim.setSubframe === 'function') {
+          anim.setSubframe(false);
         }
+        return anim;
       });
-
-      // On mobile, reduce animation quality
-      if (isMobile) {
-        Object.values(loadedAnimations).forEach(anim => {
-          if (anim && typeof anim.setSubframe === 'function') {
-            anim.setSubframe(false);
-          }
-        });
-      }
-
-      console.log(`✅ Initialized ${Object.keys(loadedAnimations).length} Lottie animations`);
-    }, 200);
-  }
-
-  // Multiple initialization strategies
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(initLottieAnimations, 300);
     });
-  } else {
-    setTimeout(initLottieAnimations, 300);
+
+    Promise.all(loadPromises).then(animations => {
+      const loadedCount = animations.filter(a => a !== null).length;
+      console.log(`✅ Successfully loaded ${loadedCount}/${animationsToLoad.length} animations`);
+    }).catch(error => {
+      console.error('❌ Error loading animations:', error);
+    });
   }
 
-  // Also try after window load
-  window.addEventListener('load', () => {
-    setTimeout(initLottieAnimations, 500);
-  });
+  // Initialize when ready
+  function startLottieInit() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initLottieAnimations, 500);
+      });
+    } else {
+      setTimeout(initLottieAnimations, 500);
+    }
 
-  // Final attempt after everything loads
-  setTimeout(initLottieAnimations, 1000);
+    window.addEventListener('load', () => {
+      setTimeout(initLottieAnimations, 800);
+    });
+  }
+
+  startLottieInit();
 </script>
 
 </body>

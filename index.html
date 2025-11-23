@@ -685,6 +685,56 @@
       margin: 0 auto;
     }
 
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+      .lottie-hero {
+        max-width: 200px;
+        filter: none;
+      }
+      
+      .lottie-feature {
+        max-width: 150px;
+      }
+      
+      .lottie-stats {
+        max-width: 250px;
+        height: 120px;
+      }
+      
+      .lottie-cta {
+        max-width: 200px;
+        filter: none;
+      }
+
+      /* Disable heavy animations on mobile */
+      .feature-card:hover {
+        transform: translateY(-4px) scale(1.01);
+      }
+
+      .balance-card:hover {
+        transform: translateY(-3px) scale(1.01);
+      }
+
+      /* Reduce particle count */
+      #particles {
+        display: none;
+      }
+
+      /* Simplify 3D transforms */
+      .phone {
+        transform: none;
+        animation: none;
+      }
+
+      .feature-card {
+        transform-style: flat;
+      }
+
+      .balance-card {
+        transform-style: flat;
+      }
+    }
+
     @media (max-width:1024px){
       .phone{
         margin-top:40px;
@@ -693,13 +743,37 @@
       }
       .scroll-indicator{display:none;}
     }
+
+    /* Performance optimizations */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .feature-card,
+    .balance-card,
+    .stat-card {
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 
 <body>
 
 <div class="bg-network"></div>
-<canvas id="particles" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+<canvas id="particles" class="fixed inset-0 z-0 pointer-events-none hidden md:block"></canvas>
 
 <!-- Scroll indicator -->
 <div class="scroll-indicator hidden lg:flex">
@@ -786,7 +860,7 @@
       <!-- Right: Balance Card & Phone mockup -->
       <div class="flex flex-col gap-6 justify-center lg:justify-end flex-1 fade-in slide-in-right">
         <!-- Welcome Lottie Animation -->
-        <div class="lottie-container">
+        <div class="lottie-container hidden md:block">
           <div id="welcome-animation" class="lottie-hero" style="width: 300px; height: 300px;"></div>
         </div>
         
@@ -821,7 +895,7 @@
         </div>
 
         <!-- Crypto Phone Lottie Animation -->
-        <div class="lottie-container">
+        <div class="lottie-container hidden md:block">
           <div id="cryptophone-animation" class="lottie-hero" style="width: 280px; height: 280px;"></div>
         </div>
 
@@ -1126,7 +1200,7 @@
   <!-- STATS SECTION -->
   <section class="stats-section py-16 fade-in">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="lottie-container mb-8">
+      <div class="lottie-container mb-8 hidden md:block">
         <div id="city-animation" class="lottie-stats" style="width: 100%; max-width: 600px; height: 200px; margin: 0 auto;"></div>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -1215,7 +1289,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="cta-section fade-in">
         <div class="relative z-10">
-          <div class="lottie-container mb-6">
+          <div class="lottie-container mb-6 hidden md:block">
             <div id="bitcoin-animation" class="lottie-cta" style="width: 300px; height: 300px; margin: 0 auto;"></div>
           </div>
           <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="cta.title">Web3'e katılın</h2>
@@ -1523,80 +1597,85 @@
     });
   }
 
-  // 3D Mouse Tracking for Phone
-  const phone = document.querySelector('.phone');
-  if (phone) {
-    phone.addEventListener('mousemove', (e) => {
-      const rect = phone.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = (y - centerY) / 20;
-      const rotateY = (centerX - x) / 20;
-      phone.style.transform = `perspective(1000px) rotateX(${10 + rotateX}deg) rotateY(${-16 + rotateY}deg) translateZ(0)`;
-    });
-    phone.addEventListener('mouseleave', () => {
-      phone.style.transform = '';
-    });
-  }
+  // 3D Mouse Tracking - Disabled on mobile for performance
+  if (!isMobile) {
+    // 3D Mouse Tracking for Phone
+    const phone = document.querySelector('.phone');
+    if (phone) {
+      phone.addEventListener('mousemove', (e) => {
+        const rect = phone.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        phone.style.transform = `perspective(1000px) rotateX(${10 + rotateX}deg) rotateY(${-16 + rotateY}deg) translateZ(0)`;
+      });
+      phone.addEventListener('mouseleave', () => {
+        phone.style.transform = '';
+      });
+    }
 
-  // 3D Mouse Tracking for Feature Cards
-  document.querySelectorAll('.feature-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = (y - centerY) / 30;
-      const rotateY = (centerX - x) / 30;
-      card.style.transform = `translateY(-12px) translateZ(20px) scale(1.03) rotateX(${-5 + rotateX}deg) rotateY(${2 + rotateY}deg)`;
+    // 3D Mouse Tracking for Feature Cards
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 30;
+        const rotateY = (centerX - x) / 30;
+        card.style.transform = `translateY(-12px) translateZ(20px) scale(1.03) rotateX(${-5 + rotateX}deg) rotateY(${2 + rotateY}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
 
-  // 3D Mouse Tracking for Balance Card
-  const balanceCard = document.querySelector('.balance-card');
-  if (balanceCard) {
-    // Parallax scroll effect
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * 0.3;
-      if (!balanceCard.matches(':hover')) {
+    // 3D Mouse Tracking for Balance Card
+    const balanceCard = document.querySelector('.balance-card');
+    if (balanceCard) {
+      // Parallax scroll effect
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * 0.3;
+        if (!balanceCard.matches(':hover')) {
+          balanceCard.style.transform = `translateY(${rate}px)`;
+        }
+      });
+
+      // 3D mouse tracking
+      balanceCard.addEventListener('mousemove', (e) => {
+        const rect = balanceCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 25;
+        const rotateY = (centerX - x) / 25;
+        balanceCard.style.transform = `translateY(-8px) scale(1.03) rotateX(${-3 + rotateX}deg) rotateY(${2 + rotateY}deg) translateZ(20px)`;
+      });
+      balanceCard.addEventListener('mouseleave', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * 0.3;
         balanceCard.style.transform = `translateY(${rate}px)`;
-      }
-    });
-
-    // 3D mouse tracking
-    balanceCard.addEventListener('mousemove', (e) => {
-      const rect = balanceCard.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = (y - centerY) / 25;
-      const rotateY = (centerX - x) / 25;
-      balanceCard.style.transform = `translateY(-8px) scale(1.03) rotateX(${-3 + rotateX}deg) rotateY(${2 + rotateY}deg) translateZ(20px)`;
-    });
-    balanceCard.addEventListener('mouseleave', () => {
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * 0.3;
-      balanceCard.style.transform = `translateY(${rate}px)`;
-    });
+      });
+    }
   }
 
-  // Particle System
+  // Particle System - Disabled on mobile for performance
   const canvas = document.getElementById('particles');
-  if (canvas) {
+  const isMobile = window.innerWidth <= 768;
+  
+  if (canvas && !isMobile) {
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const particles = [];
-    const particleCount = 80;
+    const particleCount = 50; // Reduced from 80
 
     class Particle {
       constructor() {
@@ -1703,12 +1782,18 @@
       if (typeof lottie !== 'undefined') {
         clearInterval(checkLottie);
         
-        // Load all animations
-        loadLottieAnimation('welcome-animation', 'welcome.json');
-        loadLottieAnimation('cryptophone-animation', 'cryptophone.json');
-        loadLottieAnimation('cryptocoins-animation', 'cryptocoins.json');
-        loadLottieAnimation('city-animation', 'bitcoincryptocurrencycity.json', { speed: 0.8 });
-        loadLottieAnimation('bitcoin-animation', 'cryptobitcoin.json');
+        // Load animations - fewer on mobile for performance
+        if (!isMobile) {
+          loadLottieAnimation('welcome-animation', 'welcome.json');
+          loadLottieAnimation('cryptophone-animation', 'cryptophone.json');
+          loadLottieAnimation('cryptocoins-animation', 'cryptocoins.json');
+          loadLottieAnimation('city-animation', 'bitcoincryptocurrencycity.json', { speed: 0.8 });
+          loadLottieAnimation('bitcoin-animation', 'cryptobitcoin.json');
+        } else {
+          // Only load essential animations on mobile
+          loadLottieAnimation('cryptocoins-animation', 'cryptocoins.json', { speed: 0.7 });
+          loadLottieAnimation('bitcoin-animation', 'cryptobitcoin.json', { speed: 0.7 });
+        }
       }
     }, 100);
 

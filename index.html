@@ -1637,6 +1637,29 @@
   // Footer yıl
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  // Auto-animate feature cards on page load
+  function animateFeatureCards() {
+    const featureCards = document.querySelectorAll('.feature-card');
+    featureCards.forEach((card, index) => {
+      // Add visible class immediately for fade-in
+      card.classList.add('visible');
+      
+      // Stagger animation with delay
+      setTimeout(() => {
+        card.classList.add('animate');
+      }, 200 + (index * 100)); // 200ms base + 100ms per card
+    });
+  }
+
+  // Run immediately when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(animateFeatureCards, 300);
+    });
+  } else {
+    setTimeout(animateFeatureCards, 300);
+  }
+
   // Scroll animations with Intersection Observer
   const observerOptions = {
     threshold: 0.1,
@@ -1652,17 +1675,9 @@
     });
   }, observerOptions);
 
-  // Observe all fade-in elements
-  document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+  // Observe all fade-in elements (except feature cards - they animate automatically)
+  document.querySelectorAll('.fade-in:not(.feature-card), .slide-in-left, .slide-in-right').forEach(el => {
     observer.observe(el);
-  });
-
-  // Observe feature cards with stagger
-  document.querySelectorAll('.feature-card').forEach((card, index) => {
-    observer.observe(card);
-    card.addEventListener('transitionend', () => {
-      card.classList.add('animate');
-    });
   });
 
   // Navbar scroll effect

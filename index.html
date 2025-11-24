@@ -1476,6 +1476,11 @@
             <button class="btn-ghost text-base px-8 py-4" data-i18n="cta.button2">Mobil Uygulamayı İndir</button>
           </div>
           
+          <!-- Crypto Protection Animation - Prominent -->
+          <div class="lottie-container mt-6 mb-4">
+            <div id="crypto-protection-cta-main" class="lottie-cta" style="width: 100%; height: 250px; min-height: 250px; max-width: 600px; margin: 0 auto;"></div>
+          </div>
+          
           <!-- Bottom Animation -->
           <div class="lottie-container mt-6">
             <div id="trading-hero-cta" class="lottie-cta" style="width: 100%; height: 150px; min-height: 150px; max-width: 500px; margin: 0 auto; opacity: 0.8;"></div>
@@ -2002,16 +2007,17 @@
     // New animations
     loadLottieAnimation('trading-crypto-animation', 'trading-crypto.json');
     loadLottieAnimation('crypto-protection-animation', 'crypto-protection.json');
-    loadLottieAnimation('crypto-protection-right', 'Crypto Protection.json');
+    loadLottieAnimation('crypto-protection-right', 'crypto-protection.json');
     
     // CTA section animations
-    loadLottieAnimation('crypto-protection-cta', 'Crypto Protection.json');
-    loadLottieAnimation('trading-crypto-cta', 'Trading Crypto.json');
-    loadLottieAnimation('trading-hero-cta', 'Traiding Hero animation.json');
+    loadLottieAnimation('crypto-protection-cta', 'crypto-protection.json');
+    loadLottieAnimation('crypto-protection-cta-main', 'crypto-protection.json');
+    loadLottieAnimation('trading-crypto-cta', 'trading-crypto.json');
+    loadLottieAnimation('trading-hero-cta', 'traiding-hero-animation.json');
     
     // Stats section animations
-    loadLottieAnimation('crypto-protection-stats', 'Crypto Protection.json');
-    loadLottieAnimation('trading-crypto-stats', 'Trading Crypto.json');
+    loadLottieAnimation('crypto-protection-stats', 'crypto-protection.json');
+    loadLottieAnimation('trading-crypto-stats', 'trading-crypto.json');
 
     console.log('✅ All Lottie animations initialized');
   }

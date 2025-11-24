@@ -1896,9 +1896,13 @@
         console.error(`❌ ${containerId} failed to load from ${jsonFile}`);
       });
       
+      anim.addEventListener('error', (error) => {
+        console.warn(`⚠️ ${containerId} animation error (non-critical):`, error);
+      });
+      
       return anim;
     } catch (error) {
-      console.error(`Error loading ${containerId}:`, error);
+      console.warn(`⚠️ Error loading ${containerId} (non-critical):`, error);
       return null;
     }
   }
@@ -1916,7 +1920,6 @@
     loadLottieAnimation('trading-hero-animation', 'traiding-hero-animation.json');
     loadLottieAnimation('cryptophone-animation', 'cryptophone.json');
     loadLottieAnimation('bitcoinloader-animation', 'bitcoinloader.json');
-    loadLottieAnimation('city-animation', 'bitcoincryptocurrencycity.json');
     
     // Feature section animations
     loadLottieAnimation('cryptocoins-animation', 'cryptocoins.json');

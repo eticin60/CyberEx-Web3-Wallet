@@ -1451,14 +1451,9 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="cta-section fade-in">
         <div class="relative z-10">
-          <!-- Top Animations -->
-          <div class="flex items-center justify-center gap-6 mb-6 flex-wrap">
-            <div class="lottie-container">
-              <div id="crypto-protection-cta" class="lottie-cta" style="width: 250px; height: 200px; min-height: 200px;"></div>
-            </div>
-            <div class="lottie-container">
-              <div id="trading-crypto-cta" class="lottie-cta" style="width: 250px; height: 200px; min-height: 200px;"></div>
-            </div>
+          <!-- Crypto Protection Animation - Only One -->
+          <div class="lottie-container mb-8">
+            <div id="crypto-protection-cta-main" class="lottie-cta" style="width: 100%; height: 400px; min-height: 400px; max-width: 800px; margin: 0 auto;"></div>
           </div>
           
           <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="cta.title">Web3'e katılın</h2>
@@ -1466,24 +1461,9 @@
             CyberEX ile dijital varlıklarınızı güvenle yönetin ve Web3 dünyasının tüm olanaklarından yararlanın.
           </p>
           
-          <!-- Center Animation -->
-          <div class="lottie-container mb-8">
-            <div id="bitcoin-animation" class="lottie-cta" style="width: 300px; height: 300px; min-height: 300px; margin: 0 auto;"></div>
-          </div>
-          
-          <div class="flex flex-wrap items-center justify-center gap-4 mb-6">
+          <div class="flex flex-wrap items-center justify-center gap-4">
             <button class="btn-main glow text-base px-8 py-4" data-i18n="cta.button1">Tarayıcı Eklentisini İndir</button>
             <button class="btn-ghost text-base px-8 py-4" data-i18n="cta.button2">Mobil Uygulamayı İndir</button>
-          </div>
-          
-          <!-- Crypto Protection Animation - Prominent -->
-          <div class="lottie-container mt-6 mb-4">
-            <div id="crypto-protection-cta-main" class="lottie-cta" style="width: 100%; height: 250px; min-height: 250px; max-width: 600px; margin: 0 auto;"></div>
-          </div>
-          
-          <!-- Bottom Animation -->
-          <div class="lottie-container mt-6">
-            <div id="trading-hero-cta" class="lottie-cta" style="width: 100%; height: 150px; min-height: 150px; max-width: 500px; margin: 0 auto; opacity: 0.8;"></div>
           </div>
         </div>
       </div>
@@ -2009,11 +1989,8 @@
     loadLottieAnimation('crypto-protection-animation', 'crypto-protection.json');
     loadLottieAnimation('crypto-protection-right', 'crypto-protection.json');
     
-    // CTA section animations
-    loadLottieAnimation('crypto-protection-cta', 'crypto-protection.json');
+    // CTA section animations - Only Crypto Protection
     loadLottieAnimation('crypto-protection-cta-main', 'crypto-protection.json');
-    loadLottieAnimation('trading-crypto-cta', 'trading-crypto.json');
-    loadLottieAnimation('trading-hero-cta', 'traiding-hero-animation.json');
     
     // Stats section animations
     loadLottieAnimation('crypto-protection-stats', 'crypto-protection.json');

@@ -1720,6 +1720,105 @@
     });
   }
 
+  // Button Functionality - All buttons active (without breaking animations)
+  // Wait for DOM to be fully ready
+  setTimeout(() => {
+    // Download Extension buttons
+    document.querySelectorAll('button').forEach(btn => {
+      const text = btn.textContent || btn.innerText;
+      const dataAttr = btn.getAttribute('data-i18n');
+      
+      // Tarayıcı Eklentisini İndir / Download Browser Extension
+      if (text.includes('Tarayıcı Eklentisini İndir') || text.includes('Download Browser Extension') || 
+          dataAttr === 'hero.button1' || dataAttr === 'cta.button1') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.open('https://chrome.google.com/webstore', '_blank');
+        });
+      }
+      
+      // Daha Fazlasını Gör / Learn More - scroll to features
+      if (text.includes('Daha Fazlasını Gör') || text.includes('Learn More') || dataAttr === 'hero.button2') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const featuresSection = document.getElementById('features');
+          if (featuresSection) {
+            featuresSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+      
+      // Erken Erişime Katıl / Join Early Access - scroll to get started
+      if (text.includes('Erken Erişime Katıl') || text.includes('Join Early Access') || dataAttr === 'nav.join') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const startSection = document.getElementById('start');
+          if (startSection) {
+            startSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+      
+      // Tarayıcı Eklentisi nav button - scroll to CTA
+      if ((text.includes('Tarayıcı Eklentisi') && !text.includes('İndir')) || dataAttr === 'nav.extension') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const ctaSection = document.querySelector('.cta-section');
+          if (ctaSection) {
+            ctaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+      
+      // Mobil Uygulamayı İndir / Download Mobile App
+      if (text.includes('Mobil Uygulamayı İndir') || text.includes('Download Mobile App') || dataAttr === 'cta.button2') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.open('https://play.google.com/store', '_blank');
+        });
+      }
+      
+      // Geliştirici Dokümantasyonunu Aç
+      if (text.includes('Geliştirici Dokümantasyonunu Aç') || text.includes('Developer Documentation')) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.open('https://docs.cyberex.io', '_blank');
+        });
+      }
+      
+      // API Anahtarı Talep Et
+      if (text.includes('API Anahtarı Talep Et') || text.includes('Request API Key')) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          alert('API anahtarı talebi için lütfen support@cyberex.io adresine e-posta gönderin.');
+        });
+      }
+      
+      // Detaylı raporu aç
+      if (text.includes('Detaylı raporu aç')) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.open('https://cyberex.io/security-report', '_blank');
+        });
+      }
+    });
+
+    // Email form submission
+    const emailForm = document.querySelector('form');
+    if (emailForm) {
+      emailForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailInput = emailForm.querySelector('input[type="email"]');
+        if (emailInput && emailInput.value) {
+          alert(`Teşekkürler! ${emailInput.value} adresine erken erişim davetiyesi gönderilecek.`);
+          emailInput.value = '';
+        } else {
+          alert('Lütfen geçerli bir e-posta adresi girin.');
+        }
+      });
+    }
+  }, 500);
+
   // 3D Mouse Tracking for Phone
   const phone = document.querySelector('.phone');
   if (phone && !isMobile) {

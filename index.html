@@ -693,11 +693,6 @@
       }
       
       /* Welcome animation on mobile */
-      #welcome-animation {
-        width: 250px !important;
-        height: 250px !important;
-        min-height: 250px !important;
-      }
       
       .lottie-feature {
         max-width: 150px;
@@ -828,10 +823,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-8 relative z-10">
       <div class="flex items-center justify-center gap-6 flex-wrap">
         <div class="lottie-container">
-          <div id="welcome-animation" class="lottie-hero" style="width: 400px; height: 200px; min-height: 200px; max-width: 100%;"></div>
-        </div>
-        <div class="lottie-container">
-          <div id="trading-hero-animation" class="lottie-hero" style="width: 300px; height: 200px; min-height: 200px; max-width: 100%;"></div>
+          <div id="trading-hero-animation" class="lottie-hero" style="width: 500px; height: 250px; min-height: 250px; max-width: 100%;"></div>
         </div>
       </div>
     </div>
@@ -1925,7 +1917,6 @@
     console.log('🎬 Initializing all Lottie animations...');
 
     // Main hero animations - Each animation only once
-    loadLottieAnimation('welcome-animation', 'welcome.json');
     loadLottieAnimation('trading-hero-animation', 'traiding-hero-animation.json');
     loadLottieAnimation('cryptophone-animation', 'cryptophone.json');
     loadLottieAnimation('bitcoinloader-animation', 'bitcoinloader.json');
